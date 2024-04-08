@@ -1,0 +1,86 @@
+beleza preciso de um programa em python que receba 5 arquivos para retirada de dados ,e um arquivo para ser preenchido. Mas os arquivos não podem ser obrigatorios , por exemplo se eu puder receber ate 5 arquivos mas só tiver apenas 2 arquivos ele prcisa trabalhar conforme as regras são estabelecidas. 
+
+vamos lá 
+
+o primeiro arquivo é o QGR, deste arquivo vamos olhar para as seguintes colunas :
+"CODIGO_RECEITA" ,"FONTE_RECURSO"e
+"VR_ARREC_ATE_MES_FONTE". Destas colunas vamos ter numeros que representam codigos para filtros e eles precisam se comportar como grupo no codigo por exemplo de cada "CODIGO_RECEITA" existem codigos do "FONTE_RECURSO" que juntos vão retirar valores , e se houver mais de um valor terá de ser somado , e a estrutura fica :
+ CODIGO_RECEITA 	 FONTE_RECURSO 
+	
+	
+1751500100	 21540770, 21540000 
+9217580111	 21540770, 21540000 
+9817515001	 21540770, 21540000 
+9917515001	 21540770, 21540000 
+	
+1321010100	 21540770, 21540000 
+	
+192xxxxxxx	 21540770, 21540000.
+
+neste ultimo exemplo "192xxxxxxx" são todos os codigos da receita que começam com 192.
+
+
+
+o segundo arquivo é o DED_938_12.361.0001 , deste arquivo vamos olhar pras seguintes colunas :
+
+"fonte" e "liq_ate_mes". Destas colunas vams ter numeros tambem que são codigos e valores financeiros igual a primeira no caso os codigos estarão na coluna "fonte" e estarão dividios por virgula e a estrutura ficaria :
+
+ fonte 	 liq_ate_mes 	
+ 21540770, 21540000 .
+
+lembrando que se houver mais de um valor na coluna "liq_ate_mes" deve ser somado. 
+
+
+O terceiro arquivo é o DED_938_12.365.0001, deste arquivo vamos olhar pras seguintes colunas :
+
+"fonte" e "liq_ate_mes". Destas colunas vams ter numeros tambem que são codigos e valores financeiros igual a primeira no caso os codigos estarão na coluna "fonte" e estarão dividios por virgula e a estrutura ficaria :
+
+ fonte 	 liq_ate_mes 	
+ 21540770, 21540000.
+
+lembrando que se houver mais de um valor na coluna "liq_ate_mes" deve ser somado. 
+
+
+O quarto arquivo é o RPP_1619, deste arquivo vamos olhar pra duas colunas "fonte" e "saldo_mes" na coluna fonte tambem são codigos de identificação e o saldo_mes é o valor a ser reculperado , lembrando que o valor a ser reculperado é padrão brasileiro e se houver mais de um precisa ser somado a estrutura fica assim :
+
+fonte 	 saldo_mes 	
+21540770, 21540000. 
+
+
+O quinto arquivo é o RPNP_1619 , deste arquivo vamos olhar pra duas colunas "fonte" e "saldo_mes" na coluna fonte tambem são codigos de identificação e o saldo_mes é o valor a ser reculperado , lembrando que o valor a ser reculperado é padrão brasileiro e se houver mais de um precisa ser somado a estrutura fica assim :
+
+fonte 	 saldo_mes 	
+21540770, 21540000. 
+
+
+o sexto arquivo é o fundeb , ele é o unico que se difere totalmente por que ele é o que será preenchido com os dados retirados dos outros 5. 
+
+vamos trabar apenas com a 2° aba vamos começar o preenchido do primeiro arquivo que sera no F6 ate a F15 , se não tiver valor pra preencher deixa em branco .
+
+preenchimento do que é retirado do segundo arquivo :
+F19.
+
+preenchimento do que é retirado do terceiro arquivo :
+F20.
+
+preenchimento do que é retirado do quarto arquivo :
+F22
+
+preenchimento do que é retirado do quinto arquivo :
+F23  
+
+Vamos usar o python e a biblioteca de escrita quero usar o xlwings.
+
+uma ultima coisa , os arquivos de retirada de dados não podem ser obrigatórios, quero poder usar todos de uma vez ou apenas um sem a necessidade de ser tudo de uma vez.
+
+
+
+eu preciso corrigir 
+
+
+
+21604000, 21605000
+21604000, 21605000
+21604000, 21605000
+21604000, 21605000
+21604000, 21605000

@@ -14,28 +14,32 @@ def ajustar_valor(valor):
     if isinstance(valor, str):
         valor = valor.replace('.', '')
         valor = valor.replace(',', '.')
-    return float(valor)
+    return abs(float(valor)) 
 
 def main():
     st.title('Rec VS QGR')
     st.write("Por favor, faça o upload dos arquivos Rec e QGR")
 
-    uploaded_file_rec = st.file_uploader("Escolha o arquivo REC", type=["xls",'xlsx'])
-    uploaded_file_geral = st.file_uploader("Escolha o arquivo QGR", type=['xls','xlsx'])
+    col1, col2 = st.columns(2)
+    with col1:
+        uploaded_file_rec = st.file_uploader("Escolha o arquivo REC", type=["xls", 'xlsx'])
+    with col2:
+        uploaded_file_geral = st.file_uploader("Escolha o arquivo QGR", type=['xls', 'xlsx'])
+
     nome_arquivo = st.text_input('Digite o nome do arquivo de saída (sem a extensão .xlsx)')
 
     if uploaded_file_rec is not None and uploaded_file_geral is not None:
         df_rec = pd.read_excel(uploaded_file_rec)
         df_geral = pd.read_excel(uploaded_file_geral)
 
-        # Verificação de linhas duplicadas
+       
         duplicated_rows = df_rec[df_rec.duplicated(subset=['CODIGO_RECEITA', 'FONTE_RECURSO', 'VR_ARREC_MES_FONTE'])]
         if not duplicated_rows.empty:
             st.write('Aviso: Linhas duplicadas encontradas no arquivo REC para os seguintes conjuntos:')
             for _, row in duplicated_rows.iterrows():
                 st.write(f"CODIGO_RECEITA: {row['CODIGO_RECEITA']}, FONTE_RECURSO: {row['FONTE_RECURSO']}, VR_ARREC_MES_FONTE: {row['VR_ARREC_MES_FONTE']}")
 
-        # Continuação da manipulação de dados
+       
         df_rec = df_rec[df_rec['COD_ID'] == 11]
         df_rec = df_rec.replace(np.nan, '0')
         df_geral = df_geral.replace(np.nan, '0')
@@ -44,39 +48,68 @@ def main():
         excecoes = [21710010, 21749012, 21759005]
         df_excecoes = df_geral[df_geral['FONTE_RECURSO'].isin(excecoes)]
         df_geral = df_geral[~df_geral['FONTE_RECURSO'].isin(excecoes)]
-        
+
         df_geral['FONTE_RECURSO'] = df_geral['FONTE_RECURSO'].apply(ajustar_fonte_recurso)
         df_geral = pd.concat([df_geral, df_excecoes])
         df_geral['VR_ARREC_MES_FONTE'] = df_geral['VR_ARREC_MES_FONTE'].apply(ajustar_valor)
         df_rec['VR_ARREC_MES_FONTE'] = df_rec['VR_ARREC_MES_FONTE'].apply(ajustar_valor)
+
         df_geral = df_geral.groupby(['CODIGO_RECEITA', 'FONTE_RECURSO'], as_index=False)['VR_ARREC_MES_FONTE'].sum()
 
+        
         output = BytesIO()
         with pd.ExcelWriter(output, engine='openpyxl') as writer:
             df_geral.to_excel(writer, index=False)
-        
+
         output.seek(0)
         if nome_arquivo:
             nome_arquivo += ".xlsx"
         else:
             nome_arquivo = "resultado_soma.xlsx"
-        
+
         st.download_button(
             label="Baixe o arquivo de saída",
             data=output,
             file_name=nome_arquivo,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
+
         
+        discrepancias = []
         for index, row in df_geral.iterrows():
             codigo_receita = row['CODIGO_RECEITA']
             fonte_recurso = row['FONTE_RECURSO']
-            valor = row['VR_ARREC_MES_FONTE']
+            valor_geral = row['VR_ARREC_MES_FONTE']
+
             rec_row = df_rec[(df_rec['CODIGO_RECEITA'] == codigo_receita) & (df_rec['FONTE_RECURSO'] == fonte_recurso)]
-            if not rec_row.empty and rec_row['VR_ARREC_MES_FONTE'].values[0] != valor:
-                st.write(f'Erro: diferenças encontradas para o CODIGO_RECEITA {codigo_receita} e FONTE_RECURSO {fonte_recurso}. Valor esperado: {valor}, valor encontrado: {rec_row["VR_ARREC_MES_FONTE"].values[0]}')
+
+            if not rec_row.empty:
+                valor_rec = rec_row['VR_ARREC_MES_FONTE'].values[0]
+                if abs(valor_rec) != abs(valor_geral):
+                    discrepancias.append((codigo_receita, fonte_recurso, abs(valor_geral), abs(valor_rec)))
+
+       
+        if discrepancias:
+            df_discrepancias = pd.DataFrame(discrepancias, columns=['CODIGO_RECEITA', 'FONTE_RECURSO', 'Valor QGR', 'Valor REC'])
+            st.write("Discrepâncias encontradas:")
+            st.dataframe(df_discrepancias)
+
+            output_discrepancias = BytesIO()
+            with pd.ExcelWriter(output_discrepancias, engine='openpyxl') as writer:
+                df_discrepancias.to_excel(writer, index=False)
+
+            output_discrepancias.seek(0)
+            nome_relatorio = "relatorio_discrepancias.xlsx"
+            
+            st.download_button(
+                label="Baixe o relatório de discrepâncias",
+                data=output_discrepancias,
+                file_name=nome_relatorio,
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            )
         else:
             st.write('Nenhum erro encontrado.')
 
 if __name__ == "__main__":
     main()
+

@@ -87,10 +87,10 @@ def main():
                 st.write(df)
                 st.success(f'Arquivo gerado com sucesso: {filename}')
                 
-                # Convertendo DataFrame para Excel
+               
                 excel_data = to_excel(df)
 
-                # Criando botão de download
+               
                 st.download_button(
                     label="Download Excel file",
                     data=excel_data,
