@@ -36,31 +36,31 @@ def filtrar_plano_de_contas(plano_df):
 
 def escolher_colunas_balancete(conta):
     excecoes_1 = [
-       "112910101000000", "112910102000000", "112910104000000", "113919900000000",
-        "121119904000000", "121119905000000", "121219903000000", "123810199000000",
-        "521120200000000", "521120101000000", "521129900000000",
-        "521120300000000", "521120400000000", "522130300000000", "522130900000000"
+       "112910101000000", "112910102000000", "112910104000000", "113919900000000","123810105000000","123810101000000"
+        "121119904000000", "121119905000000", "121219903000000", "123810199000000","123810102000000","123810205000000"
+        "521120200000000", "521120101000000", "521129900000000", "113910402000000","121119999000000",
+        "521120300000000", "521120400000000", "522130300000000", "522130900000000","123810103000000",
 
     ]
     excecoes_2 = [
          "227210105000000", "227210202000000", "227210203000000", "227210204000000",
-        "227210304000000", "227210305000000", "227210402000000",
+        "227210304000000", "227210305000000", "227210402000000","227210104000000",
         "227210403000000", "227210404000000", "2272201010000000", "227220203000000", 
         "621310100000000", "621320000000000", "62133000000000", "621340000000000", 
-        "621360000000000", "621390000000000"
+        "621360000000000", "621390000000000","621330000000000", "227210303000000","227210103000000"
 
     ]
     
-    # Para contas de exceção, a lógica de seleção de colunas é invertida
+    
     if conta in excecoes_1:
-        colunas_balancete = ['credito_anterior', 'debito_mes', 'credito_mes', 'credito_atual']
-        colunas_matriz = ['Saldo Inicial', 'Movimentação Crédito', 'Movimentação Débito', 'Saldo Final']
+        colunas_balancete = ['credito_anterior', 'credito_mes', 'debito_mes','credito_atual']
+        colunas_matriz = ['Saldo Inicial',  'Movimentação Débito','Movimentação Crédito', 'Saldo Final']
     elif conta in excecoes_2:
         colunas_balancete = ['debito_anterior', 'debito_mes', 'credito_mes', 'debito_atual']
-        colunas_matriz = ['Saldo Inicial', 'Movimentação Crédito', 'Movimentação Débito', 'Saldo Final']
+        colunas_matriz = ['Saldo Inicial',  'Movimentação Débito','Movimentação Crédito', 'Saldo Final']
         pass
     else:
-        # Lógica padrão para contas não excepcionais
+       
         if conta.startswith(('1', '3', '5', '7')):
             colunas_balancete = ['debito_anterior', 'debito_atual']
             colunas_matriz = ['Saldo Inicial',  'Saldo Final']
@@ -93,7 +93,7 @@ def comparar_valores(conta, matriz_df, balancete_df, discrepancias, registros_co
     if not erro_encontrado and row_matriz is not None and row_balancete is not None:
         adicionar_discrepancia(registros_corretos, conta, 'Todos', 'Ok', 'Ok')
 
-# Função principal
+
 def main():
     st.title('Matriz VS Balancete')
 

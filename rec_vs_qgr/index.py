@@ -14,7 +14,7 @@ def ajustar_valor(valor):
     if isinstance(valor, str):
         valor = valor.replace('.', '')
         valor = valor.replace(',', '.')
-    return abs(float(valor)) 
+    return abs(float(valor))
 
 def main():
     st.title('Rec VS QGR')
@@ -32,18 +32,15 @@ def main():
         df_rec = pd.read_excel(uploaded_file_rec)
         df_geral = pd.read_excel(uploaded_file_geral)
 
-       
         duplicated_rows = df_rec[df_rec.duplicated(subset=['CODIGO_RECEITA', 'FONTE_RECURSO', 'VR_ARREC_MES_FONTE'])]
         if not duplicated_rows.empty:
             st.write('Aviso: Linhas duplicadas encontradas no arquivo REC para os seguintes conjuntos:')
             for _, row in duplicated_rows.iterrows():
                 st.write(f"CODIGO_RECEITA: {row['CODIGO_RECEITA']}, FONTE_RECURSO: {row['FONTE_RECURSO']}, VR_ARREC_MES_FONTE: {row['VR_ARREC_MES_FONTE']}")
 
-       
         df_rec = df_rec[df_rec['COD_ID'] == 11]
         df_rec = df_rec.replace(np.nan, '0')
         df_geral = df_geral.replace(np.nan, '0')
-        df_geral['CODIGO_RECEITA'] = df_geral['CODIGO_RECEITA'].apply(lambda x: x if str(x)[0] == '9' else str(x)[:-2])
 
         excecoes = [21710010, 21749012, 21759005]
         df_excecoes = df_geral[df_geral['FONTE_RECURSO'].isin(excecoes)]
@@ -55,8 +52,8 @@ def main():
         df_rec['VR_ARREC_MES_FONTE'] = df_rec['VR_ARREC_MES_FONTE'].apply(ajustar_valor)
 
         df_geral = df_geral.groupby(['CODIGO_RECEITA', 'FONTE_RECURSO'], as_index=False)['VR_ARREC_MES_FONTE'].sum()
+        df_rec = df_rec.groupby(['CODIGO_RECEITA', 'FONTE_RECURSO'], as_index=False)['VR_ARREC_MES_FONTE'].sum()
 
-        
         output = BytesIO()
         with pd.ExcelWriter(output, engine='openpyxl') as writer:
             df_geral.to_excel(writer, index=False)
@@ -74,23 +71,24 @@ def main():
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
 
-        
         discrepancias = []
         for index, row in df_geral.iterrows():
             codigo_receita = row['CODIGO_RECEITA']
             fonte_recurso = row['FONTE_RECURSO']
-            valor_geral = row['VR_ARREC_MES_FONTE']
+            valor_geral = round(row['VR_ARREC_MES_FONTE'], 2)
 
             rec_row = df_rec[(df_rec['CODIGO_RECEITA'] == codigo_receita) & (df_rec['FONTE_RECURSO'] == fonte_recurso)]
 
             if not rec_row.empty:
-                valor_rec = rec_row['VR_ARREC_MES_FONTE'].values[0]
+                valor_rec = round(rec_row['VR_ARREC_MES_FONTE'].values[0], 2)
                 if abs(valor_rec) != abs(valor_geral):
                     discrepancias.append((codigo_receita, fonte_recurso, abs(valor_geral), abs(valor_rec)))
 
-       
         if discrepancias:
             df_discrepancias = pd.DataFrame(discrepancias, columns=['CODIGO_RECEITA', 'FONTE_RECURSO', 'Valor QGR', 'Valor REC'])
+            df_discrepancias['Valor QGR'] = df_discrepancias['Valor QGR'].map('{:,.2f}'.format).str.replace(',', 'X').str.replace('.', ',').str.replace('X', '.')
+            df_discrepancias['Valor REC'] = df_discrepancias['Valor REC'].map('{:,.2f}'.format).str.replace(',', 'X').str.replace('.', ',').str.replace('X', '.')
+            df_discrepancias['CODIGO_RECEITA'] = df_discrepancias['CODIGO_RECEITA'].astype(str)
             st.write("Discrepâncias encontradas:")
             st.dataframe(df_discrepancias)
 
@@ -112,4 +110,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

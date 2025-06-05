@@ -59,7 +59,6 @@ def fill_fundeb(file_path, qgr_data=None, ded_361_data=None, ded_365_data=None, 
 def main():
     st.title("FUNDEB")
 
-    # Upload de arquivos
     caminho_qgr = st.file_uploader("Carregue o arquivo QGR", type=['csv'])
     caminho_ded_361 = st.file_uploader("Carregue o arquivo DED 361", type=['csv'])
     caminho_ded_365 = st.file_uploader("Carregue o arquivo DED 365", type=['csv'])
@@ -67,7 +66,7 @@ def main():
     caminho_rpnp_1619 = st.file_uploader("Carregue o arquivo RPNP 1619", type=['csv'])
     caminho_fundeb = st.file_uploader("Carregue o arquivo FUNDEB", type=['xlsx'])
 
-    # Botão para processar
+   
     if st.button('Processar Arquivos'):
         try:
             qgr_data = process_qgr(StringIO(caminho_qgr.getvalue().decode("latin1"))) if caminho_qgr else None

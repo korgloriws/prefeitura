@@ -34,9 +34,9 @@ def main():
     st.title("Comparador LQD")
 
     with st.form("file_upload"):
-        lqd_file = st.file_uploader("Carregar arquivo LQD Dez-23.csv", type=['csv'])
-        rel_1162_file = st.file_uploader("Carregar arquivo Rel. 1162 Liquidações dez-23.csv", type=['csv'])
-        restos_pagar_file = st.file_uploader("Carregar arquivo restos a pagar não processados dez-23.csv", type=['csv'])
+        lqd_file = st.file_uploader("Carregar arquivo LQD .csv", type=['csv'])
+        rel_1162_file = st.file_uploader("Carregar arquivo Rel. 1162 Liquidações .csv", type=['csv'])
+        restos_pagar_file = st.file_uploader("Carregar arquivo restos a pagar não processados .csv", type=['csv'])
         submitted = st.form_submit_button("Processar arquivos")
 
     if submitted and lqd_file and rel_1162_file and restos_pagar_file:

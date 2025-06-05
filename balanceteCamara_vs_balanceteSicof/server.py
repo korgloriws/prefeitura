@@ -72,6 +72,11 @@ def main():
         df2 = pd.read_csv(arquivo2, encoding='ISO-8859-1', sep=';')
         padronizar_dataframe(df1)
         padronizar_dataframe(df2)
+        
+
+        df_erros_cod_contabil = pd.DataFrame()
+        df_erros_valores = pd.DataFrame()
+
         if df1.columns.tolist() == df2.columns.tolist():
             erros_cod_contabil, erros_valores = compara_dados(df1, df2)
             if erros_cod_contabil or erros_valores:
@@ -83,18 +88,24 @@ def main():
                     df_erros_valores = pd.DataFrame(erros_valores)
                     st.write("Erros onde os valores não batem:")
                     st.table(df_erros_valores)
-                nome_arquivo = st.text_input("Nome do arquivo para download", "erros.csv")
-                if st.button('Baixar Arquivo'):
-                    st.download_button(
-                        label="Baixar erros",
-                        data=pd.concat([df_erros_cod_contabil, df_erros_valores]).to_csv(index=False),
-                        file_name=nome_arquivo,
-                        mime="text/csv"
-                    )
+                
+           
+                dfs_para_concatenar = [df for df in [df_erros_cod_contabil, df_erros_valores] if not df.empty]
+                if dfs_para_concatenar: 
+                    df_concatenado = pd.concat(dfs_para_concatenar)
+                    nome_arquivo = st.text_input("Nome do arquivo para download", "erros.csv")
+                    if st.button('Baixar Arquivo'):
+                        st.download_button(
+                            label="Baixar erros",
+                            data=df_concatenado.to_csv(index=False),
+                            file_name=nome_arquivo,
+                            mime="text/csv"
+                        )
             else:
                 st.success('Não foram encontradas diferenças.')
         else:
             st.error('Os arquivos não têm o mesmo formato.')
+
 
 if __name__ == "__main__":
     main()

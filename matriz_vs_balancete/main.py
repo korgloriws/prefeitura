@@ -90,7 +90,7 @@ def comparar_valores(conta, matriz_df, balancete_df, discrepancias, registros_co
     if not erro_encontrado and row_matriz is not None and row_balancete is not None:
         adicionar_discrepancia(registros_corretos, conta, 'Todos', 'Ok', 'Ok')
 
-# Função principal
+
 def main():
     st.title('Matriz VS Balancete')
 

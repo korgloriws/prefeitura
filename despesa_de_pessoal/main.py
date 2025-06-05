@@ -5,7 +5,6 @@ import re
 import io
 
 def regex_for_wildcard(text):
-    
     if 'XX' in text:
         return '^' + text.replace('XX', '(\\d{2}|\\d)') + '$'
     else:
@@ -32,23 +31,6 @@ def main():
         layout_df.columns = layout_df.iloc[header_index]
         layout_df = layout_df.iloc[header_index+1:]  
 
-        meses = {
-            'jan': 6,
-            'fev': 7,
-            'mar': 8,
-            'abr': 9,
-            'mai': 10,
-            'jun': 11,
-            'jul': 12,
-            'ago': 13,
-            'set': 14,
-            'out': 15,
-            'nov': 16,
-            'dez': 17
-        }
-        
-        mes = st.selectbox("Selecione o mês que deseja preencher:", list(meses.keys()))
-        
         wb_original = openpyxl.load_workbook(file_layout, data_only=False)
         ws_original = wb_original.active
         
@@ -67,25 +49,21 @@ def main():
                     if 'Todas fontes' in fontes or str(grouped_row['fonte']) in fontes:
                         value += grouped_row['vr_liq_mes']
             
-            col = meses[mes.lower()]
+            col = 6  
             ws_original.cell(row=index + 2 - header_index, column=col, value=value)
         
-      
         ws_summary = wb_original.create_sheet("Somatórios")
         filtered_data = data_df[data_df['despesa'].astype(str).str.startswith('31')]
         total_sum = filtered_data['vr_liq_mes'].sum()
         ws_summary.append(["Despesa Início 31", "Total"])
         ws_summary.append(["31", total_sum])
         
-        
         output = io.BytesIO()
         wb_original.save(output)
         output.seek(0)
 
-       
         final_file_name = "Final_Conferência_Despesa_de_Pessoal_Layout.xlsx"
 
-        
         st.download_button(
             label="Baixar arquivo final",
             data=output,

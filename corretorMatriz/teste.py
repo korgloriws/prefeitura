@@ -3,21 +3,16 @@ import pandas as pd
 import io
 
 def calcular_valores(sub_df):
-    conta = sub_df['CONTA'].iloc[0]  
-    
+    conta = sub_df['CONTA'].iloc[0]
     
     excecoes_dc = [
-        "112910101000000", "112910102000000", "112910104000000", "113919900000000",
-        "121119905000000", "121219903000000", "123810199000000", "521120200000000",
-        "521120300000000", "521120400000000", "522130300000000", "522130900000000"
+    "112910101000000", "112910102000000", "112910104000000", "113919900000000", "121119904000000", "121119905000000", "121219903000000", "123810199000000", 
+    "521120101000000", "52112020000000", "521120300000000", "521120400000000", "521129900000000", "522130300000000", "522130900000000"  
     ]
     excecoes_cd = [
-        "227210105000000", "227210202000000", "227210203000000", "227210204000000",
-        "2272210303000000", "227210304000000", "227210305000000", "227210402000000",
-        "227210403000000", "227210404000000", "621310100000000", "621320000000000",
-        "62133000000000", "621340000000000", "621360000000000", "621390000000000"
+    "227210103000000", "227210105000000", "227210202000000", "227210203000000", "227210204000000", "227210303000000", "227210304000000", "227210305000000", "227210402000000", "227210403000000" ,"227210404000000", "227220101000000", "227220203000000" 
+    "621310100000000", "621320000000000", "621330000000000", "621340000000000", "621360000000000", "621390000000000"  
     ]
-    
     
     if conta[0] in ['1', '3', '5', '7']:
         if conta in excecoes_dc:
@@ -29,7 +24,6 @@ def calcular_valores(sub_df):
             operacao = lambda d, c: d - c 
         else:
             operacao = lambda d, c: c - d  
-    
     
     saldo_inicial = operacao(
         sub_df[(sub_df['Tipo_valor'] == 'beginning_balance') & (sub_df['Natureza_valor'] == 'D')]['Valor'].sum(),
@@ -44,19 +38,12 @@ def calcular_valores(sub_df):
     mov_credito = sub_df[(sub_df['Tipo_valor'] == 'period_change') & (sub_df['Natureza_valor'] == 'C')]['Valor'].sum()
     mov_debito = sub_df[(sub_df['Tipo_valor'] == 'period_change') & (sub_df['Natureza_valor'] == 'D')]['Valor'].sum()
 
-    
     saldo_inicial, saldo_final, mov_credito, mov_debito = map(lambda x: round(x, 2), [saldo_inicial, saldo_final, mov_credito, mov_debito])
 
-    
     if conta[0] in ['1', '3', '5', '7']:
-        
         natureza_final = 'D' if saldo_final >= 0 else 'C'
     else:
-        
         natureza_final = 'C' if saldo_final >= 0 else 'D'
-    
-   
-    saldo_inicial, saldo_final, mov_credito, mov_debito = map(lambda x: round(x, 2), [saldo_inicial, saldo_final, mov_credito, mov_debito])
     
     return pd.Series([saldo_inicial,  mov_debito,mov_credito, saldo_final, natureza_final])
 
@@ -86,22 +73,11 @@ def adicionar_observacoes(row):
 
 def process_file(uploaded_file):
     df = pd.read_csv(uploaded_file, sep=';', dtype={'CONTA': str})
-    st.write(f"Total de linhas após leitura do arquivo: {len(df)}")
-    
     df['Valor'] = df['Valor'].str.replace(',', '.').astype(float)
-    
-    # Você pode querer verificar se há contas duplicadas neste ponto
-    contas_unicas = df['CONTA'].nunique()
-    st.write(f"Total de contas únicas: {contas_unicas}")
-    
     resultado = df.groupby('CONTA').apply(calcular_valores)
-    resultado.columns = ['Saldo Inicial', 'Movimentação Débito', 'Movimentação Crédito', 'Saldo Final', 'Natureza Final']
-    
-    st.write(f"Total de linhas após agrupamento e cálculos: {len(resultado)}")
-    
-    resultado = resultado.reset_index()
+    resultado.columns = ['Saldo Inicial',  'Movimentação Débito','Movimentação Crédito', 'Saldo Final', 'Natureza Final']
+    resultado = resultado.reset_index()  
     resultado['OBS'] = resultado.apply(adicionar_observacoes, axis=1)
-    
     return resultado
 
 def generate_excel(df):
@@ -116,7 +92,6 @@ def main():
 
     uploaded_file = st.file_uploader("Escolha um arquivo CSV", type="csv")
     if uploaded_file is not None:
-        st.write("Processando arquivo...")
         resultado = process_file(uploaded_file)
 
         st.write("Resultados:")
