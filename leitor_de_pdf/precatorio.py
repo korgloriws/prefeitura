@@ -8,7 +8,14 @@ import base64
 import io
 from fpdf import FPDF  
 
-locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+
+try:
+    locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+except locale.Error:
+    try:
+        locale.setlocale(locale.LC_ALL, 'pt_BR')
+    except locale.Error:
+        locale.setlocale(locale.LC_ALL, '')
 
 def process_pdf(file):
     sum_resgate = 0
