@@ -25,7 +25,7 @@ def processar_arquivo(uploaded_file):
 
 
 def main():
-    st.title("Somador CTB")
+    st.title("Somatório do CTB por orgãos")
     
     uploaded_file = st.file_uploader("Faça upload do arquivo CSV", type="csv")
     if uploaded_file is not None:

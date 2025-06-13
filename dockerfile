@@ -1,28 +1,21 @@
 FROM python:3.12-slim
 
 
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update && apt-get install -y locales && \
-    echo "pt_BR.UTF-8 UTF-8" > /etc/locale.gen && \
-    locale-gen && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    locales \
+    && rm -rf /var/lib/apt/lists/* \
+    && localedef -i pt_BR -c -f UTF-8 -A /usr/share/locale/locale.alias pt_BR.UTF-8
 
 
-ENV LANG=pt_BR.UTF-8 \
-    LANGUAGE=pt_BR.UTF-8 \
-    LC_ALL=pt_BR.UTF-8
-
-WORKDIR /app
-
+ENV LANG pt_BR.UTF-8
+ENV LC_ALL pt_BR.UTF-8
+ENV LANGUAGE pt_BR:pt
 
 COPY . /app
+WORKDIR /app
 
-
-RUN pip install --no-cache-dir -r requirements.txt
-
+RUN pip install -r requirements.txt
 
 EXPOSE 8501
-
 
 CMD ["streamlit", "run", "main.py"]

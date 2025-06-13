@@ -44,7 +44,7 @@ def comparar_arquivos(relatorio, anl):
     return comparacao, soma_relatorio, soma_anl
 
 def main():
-    st.title('ANL vs Relatório 1157')
+    st.title('ANL')
     relatorio_file = st.file_uploader('Upload Relatório 1157 CSV', type='csv')
     anl_file = st.file_uploader('Upload ANL CSV', type='csv')
 

@@ -32,12 +32,12 @@ def processar_arquivos(df_2025, df_2024):
     return df_comparacao, df_iguais, df_diferentes
 
 def main():
-    st.title("Comparação de Saldos encerramento 2024 e 2025")
+    st.title("Comparação de Saldos encerramento")
 
-    st.write("Faça o upload dos arquivos CSV para 2024 e 2025")
+    st.write("Faça o upload dos arquivos CSV ")
 
-    arquivo_2025 = st.file_uploader("Upload arquivo 2025", type="csv")
-    arquivo_2024 = st.file_uploader("Upload arquivo 2024", type="csv")
+    arquivo_2025 = st.file_uploader("Upload arquivo ano atual ", type="csv")
+    arquivo_2024 = st.file_uploader("Upload arquivo ano anterior", type="csv")
 
     if arquivo_2025 and arquivo_2024:
         colunas_necessarias = ["cod_contabil", "debito_anterior", "credito_anterior", "debito_atual", "credito_atual"]

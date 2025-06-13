@@ -23,13 +23,13 @@ from corretorMatriz.teste4 import main as main20 #VV
 from comparador_emp.main import main as main21 #VV
 from matriz_vs_balancete.teste4 import main as main22 # VV
 from lqd.main import main as main23 #VV
-from receita_corrente_liquida.main import main as main24
-from anl.main import main as main25
-from ddr.main import main as main26
-from execucaoOrcamentariaEFinanceira.mainLinux import main as main27
-from msc_ctb.index import main as main28 
-from tradutor_msc_ctb.tradutor import main as main29
-from rec_vs_ementarioDaRceita.main import main as main30
+from receita_corrente_liquida.main import main as main24 #VV
+from anl.main import main as main25 ##VV
+from ddr.main import main as main26 
+#from execucaoOrcamentariaEFinanceira.mainLinux import main as main27 
+from msc_ctb.index import main as main28 #VV
+from tradutor_msc_ctb.tradutor import main as main29 #VV
+from rec_vs_ementarioDaRceita.main import main as main30 #VV 
 from fontes_co.main import main as main31
 from somatorioMscBancoContaFonte.index3 import main as main32
 from comparacao_saldo_encerramento.main import main as main33
@@ -39,6 +39,8 @@ from relacao_trabalhadores_fgts.mainLinux import main as main36
 from extrator_valor_nota_produto.main import main as main38
 from comparador_de_pcasps.main import main as main39 # VV
 from posicaoFonte_vs_msc.app import main as main40
+from nota_servico_sepat.extrator_nfse import main as main41 
+
 
 
 
@@ -53,17 +55,18 @@ categorias_programas = {
     'Módulo de prestação de contas': {
         
         'Matriz': ['Corretor da Matriz', 'Matriz VS balancete', 'Corretor da MSC para o CTB', 'Matriz VS CTB','Somatório da matriz por Banco conta e fonte'],
-        'Conciliações Mensais': [ 'Balancete Sicof VS balancete Sicon', 'Despesa com Pessoal', 'Execucão orcamentária e financeira', 
+        'Conciliações Mensais': [ 'Balancete Sicof VS balancete Sicon', 'Despesa com Pessoal', #'Execucão orcamentária e financeira', 
         'Balancete VS CTB', 'FUNDEB', #'Comparador Ar',
         'MDE', 'Receita corrente líquida','Demonstrativo da saúde', 'Posição de Bancos por Fonte VS MSC'],
-        'Demais Conciliações': ['Somatório do CTB por orgãos','Totalizador do CTB por fonte','Posição de Bancos VS Matriz'],
+        'Demais Conciliações': ['Somatório do CTB por orgãos','Totalizador do CTB por fonte',#'Posição de Bancos VS Matriz'
+                                ],
         'Módulo AM': ['Consórcio das Mulheres', 'ICISMEP', 'Comparador do EMP', 'ANL'],
     },
 
     'Módulo Superintendencia de Finanças':{
        'Conciliações Mensais Receita': ['REC VS QGR', 'Rec VS ementário da receita', 'Fontes co','Posição de Bancos VS CTB','Depósitos judicias',],
        'Módulo AM': [ 'LQD' ],
-       'Inspeção Financeira':["Relacão de trabalhadores do FGTS","Extrator de valor das notas fiscais de produtos"],
+       'Inspeção Financeira':["Relacão de trabalhadores do FGTS","Extrator de valor das notas fiscais de produtos","Soma NF SEPAT Serviços"],
     },
 }
 
@@ -94,7 +97,7 @@ programas_funcoes = {
     'Receita corrente líquida': main24,
     'ANL': main25,
     'DDR': main26,
-    'Execucão orcamentária e financeira':main27,
+    # 'Execucão orcamentária e financeira':main27,
     'Matriz VS CTB' : main28,
     'Corretor da MSC para o CTB' : main29,
     'Rec VS ementário da receita' : main30,
@@ -107,6 +110,7 @@ programas_funcoes = {
     'Extrator de valor das notas fiscais de produtos': main38,
     'Comparador de PCASPs': main39,
     'Posição de Bancos por Fonte VS MSC': main40,
+    'Soma NF SEPAT Serviços': main41,
  
 }
 

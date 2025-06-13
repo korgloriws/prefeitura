@@ -55,7 +55,7 @@ def processar_arquivos(df_referencia, df_comparacao):
     return df_relatorio_completo, df_relatorio_diferencas, df_soma_ug, df_soma_data_lanc
 
 def main():
-    st.title("Comparador DDR")
+    st.title("DDR")
     
     arquivo_referencia = st.file_uploader("Envie o arquivo 62", type=["xlsx"])
     arquivo_comparacao = st.file_uploader("Envie o arquivo 82", type=["xlsx"])

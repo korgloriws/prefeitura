@@ -39,7 +39,7 @@ def salvar_resultados_excel(comparacao_completa, corretos, incorretos, caminho_a
 
 def main():
     
-    st.title('QGR VS Tabela de Fontes e CO')
+    st.title('Fontes CO')
 
 
     qgr_file = st.file_uploader('Faça o upload do arquivo QGR (xlsx)', type='xlsx')
