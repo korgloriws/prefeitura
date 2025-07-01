@@ -32,7 +32,7 @@ def processar_arquivos(df_2025, df_2024):
     return df_comparacao, df_iguais, df_diferentes
 
 def main():
-    st.title("Comparação de Saldos encerramento")
+    st.title("Comparação de Saldos do Balancete")
 
     st.write("Faça o upload dos arquivos CSV ")
 

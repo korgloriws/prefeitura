@@ -30,15 +30,15 @@ from ddr.main import main as main26
 from msc_ctb.index import main as main28 #VV
 from tradutor_msc_ctb.tradutor import main as main29 #VV
 from rec_vs_ementarioDaRceita.main import main as main30 #VV 
-from fontes_co.main import main as main31
-from somatorioMscBancoContaFonte.index3 import main as main32
-from comparacao_saldo_encerramento.main import main as main33
-from totalizador_ctb_fonte.main import main as main34
-from depositos_judiciais.main import main as main35 
-from relacao_trabalhadores_fgts.mainLinux import main as main36
-from extrator_valor_nota_produto.main import main as main38
+from fontes_co.main import main as main31 #VV
+from somatorioMscBancoContaFonte.index3 import main as main32 #VV
+from comparacao_saldo_encerramento.main import main as main33 #VV
+from totalizador_ctb_fonte.main import main as main34 #VV
+from depositos_judiciais.main import main as main35 #VV
+from relacao_trabalhadores_fgts.mainLinux import main as main36 #VV
+from extrator_valor_nota_produto.main import main as main38 #VV
 from comparador_de_pcasps.main import main as main39 # VV
-from posicaoFonte_vs_msc.app import main as main40
+from posicaoFonte_vs_msc.app import main as main40 #VV
 from nota_servico_sepat.extrator_nfse import main as main41 
 
 
@@ -66,7 +66,7 @@ categorias_programas = {
     'Módulo Superintendencia de Finanças':{
        'Conciliações Mensais Receita': ['REC VS QGR', 'Rec VS ementário da receita', 'Fontes co','Posição de Bancos VS CTB','Depósitos judicias',],
        'Módulo AM': [ 'LQD' ],
-       'Inspeção Financeira':["Relacão de trabalhadores do FGTS","Extrator de valor das notas fiscais de produtos","Soma NF SEPAT Serviços"],
+       'Inspeção Financeira':["Relacão de trabalhadores do FGTS","NF-SEPAT - Produtos","NF-SEPAT - Serviços"],
     },
 }
 
@@ -103,14 +103,14 @@ programas_funcoes = {
     'Rec VS ementário da receita' : main30,
     'Fontes co': main31,
     'Somatório da matriz por Banco conta e fonte': main32,
-    'Comparação dos saldos de encerramento': main33,
+    'Comparação de Saldos do Balancete': main33,
     'Totalizador do CTB por fonte': main34,
     'Depósitos judicias': main35,
     'Relacão de trabalhadores do FGTS': main36,
-    'Extrator de valor das notas fiscais de produtos': main38,
+    'NF-SEPAT - Produtos': main38,
     'Comparador de PCASPs': main39,
     'Posição de Bancos por Fonte VS MSC': main40,
-    'Soma NF SEPAT Serviços': main41,
+    'NF-SEPAT - Serviços': main41,
  
 }
 

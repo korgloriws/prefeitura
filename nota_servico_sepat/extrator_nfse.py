@@ -130,7 +130,7 @@ def format_currency(value):
     return f"R$ {value:,.2f}".replace(',', '·').replace('.', ',').replace('·', '.')
 
 def main() -> None:
-    st.title("Extrator de Valores de NFS-e")
+    st.title("NF-SEPAT - Serviços")
 
     up = st.file_uploader("Selecione o PDF", type=["pdf"])
     if not up:

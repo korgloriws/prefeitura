@@ -55,7 +55,7 @@ def extrair_valores(up_file) -> pd.DataFrame:
 
 def main() -> None:
 
-    st.title("Soma NF SEPAT Serviços")
+    st.title("NF-SEPAT - Produtos")
 
     up = st.file_uploader("Selecione o PDF", type=["pdf"])
     if not up:
