@@ -40,6 +40,7 @@ from extrator_valor_nota_produto.main import main as main38 #VV
 from comparador_de_pcasps.main import main as main39 # VV
 from posicaoFonte_vs_msc.app import main as main40 #VV
 from nota_servico_sepat.extrator_nfse import main as main41 
+from disponibilidade_caixa.main import main as main42 #VV
 
 
 
@@ -57,7 +58,7 @@ categorias_programas = {
         'Matriz': ['Corretor da Matriz', 'Matriz VS balancete', 'Corretor da MSC para o CTB', 'Matriz VS CTB','Somatório da matriz por Banco conta e fonte'],
         'Conciliações Mensais': [ 'Balancete Sicof VS balancete Sicon', 'Despesa com Pessoal', #'Execucão orcamentária e financeira', 
         'Balancete VS CTB', 'FUNDEB', #'Comparador Ar',
-        'MDE', 'Receita corrente líquida','Demonstrativo da saúde', 'Posição de Bancos por Fonte VS MSC'],
+        'MDE', 'Receita corrente líquida','Demonstrativo da saúde', 'Posição de Bancos por Fonte VS MSC',"Disponibilidade de Caixa",],
         'Demais Conciliações': ['Somatório do CTB por orgãos','Totalizador do CTB por fonte',#'Posição de Bancos VS Matriz'
                                 ],
         'Módulo AM': ['Consórcio das Mulheres', 'ICISMEP', 'Comparador do EMP', 'ANL'],
@@ -111,6 +112,7 @@ programas_funcoes = {
     'Comparador de PCASPs': main39,
     'Posição de Bancos por Fonte VS MSC': main40,
     'NF-SEPAT - Serviços': main41,
+    'Disponibilidade de Caixa': main42,
  
 }
 
