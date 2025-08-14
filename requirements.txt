@@ -12,3 +12,5 @@ pymupdf
 pytesseract
 Pillow
 opencv-python
+plotly>=5.20.0
+fpdf2>=2.7.9

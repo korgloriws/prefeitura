@@ -42,6 +42,7 @@ from posicaoFonte_vs_msc.app import main as main40 #VV
 from nota_servico_sepat.extrator_nfse import main as main41 
 from disponibilidade_caixa.main import main as main42 #VV
 from comprovante_de_remessa.main import main as main43 
+from fluxo_de_caixa_fundeb.main import main as main44 
 
 
 
@@ -66,6 +67,7 @@ categorias_programas = {
     },
 
     'Módulo Superintendencia de Finanças':{
+       'Conciliações Diárias': ['Fluxo de Caixa Fundeb'],
        'Conciliações Mensais': ['REC VS QGR', 'Rec VS ementário da receita', 'Fontes co','Posição de Bancos VS CTB','Depósitos judicias','Comprovantes de remessa'],
        'Módulo AM': [ 'LQD' ],
        'Inspeção Financeira':["Relacão de trabalhadores do FGTS","NF-SEPAT - Produtos","NF-SEPAT - Serviços"],
@@ -115,6 +117,7 @@ programas_funcoes = {
     'NF-SEPAT - Serviços': main41,
     'Disponibilidade de Caixa': main42,
     'Comprovantes de remessa': main43,
+    'Fluxo de Caixa Fundeb': main44,
  
 }
 
